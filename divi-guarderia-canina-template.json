@@ -1,0 +1,889 @@
+{
+  "version": "4.0",
+  "divi_version": "4.20.2",
+  "template_type": "layout",
+  "template_name": "Curso Guardería Canina - Landing Page",
+  "template_description": "Landing page profesional para vender curso digital sobre guarderías caninas",
+  "sections": [
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "rgba(59,130,246,0.05)",
+        "background_gradient": "linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(255,255,255,1) 50%, rgba(147,51,234,0.05) 100%)",
+        "padding": "100px|20px|80px|20px|true|false",
+        "custom_css_main_element": "position: relative;"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px",
+            "use_custom_gutter": "on",
+            "gutter_width": "4"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "1_2",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<div style=\"display: inline-flex; align-items: center; background: rgba(59,130,246,0.1); color: #1e40af; padding: 8px 16px; border-radius: 25px; font-size: 14px; font-weight: 500; margin-bottom: 20px;\"><span style=\"margin-right: 8px;\">⭐</span>Curso #1 en Guarderías Caninas</div>",
+                    "text_orientation": "left"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h1 style=\"font-size: 48px; font-weight: 700; line-height: 1.1; color: #111827; margin-bottom: 20px;\">Convierte tu <span style=\"background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;\">Pasión por los Perros</span> en un Negocio Rentable</h1>",
+                    "text_orientation": "left"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<p style=\"font-size: 20px; color: #6b7280; line-height: 1.6; margin-bottom: 30px;\">Aprende a crear y gestionar una guardería canina exitosa desde cero. Más de 500 estudiantes ya han transformado sus vidas con nuestro método probado.</p>",
+                    "text_orientation": "left"
+                  }
+                },
+                {
+                  "type": "et_pb_button",
+                  "settings": {
+                    "button_text": "🎬 Comenzar Ahora",
+                    "button_url": "#precio",
+                    "background_color": "#3b82f6",
+                    "background_gradient": "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                    "button_text_color": "#ffffff",
+                    "button_border_radius": "12px",
+                    "custom_padding": "16px|32px|16px|32px|true|true",
+                    "button_font_size": "18px",
+                    "button_font_weight": "600",
+                    "hover_transition_duration": "200ms",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(59,130,246,0.3)"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<div style=\"display: flex; gap: 30px; margin-top: 30px; font-size: 14px; color: #6b7280;\"><div style=\"display: flex; align-items: center; gap: 8px;\"><span style=\"color: #10b981;\">✓</span>Garantía 30 días</div><div style=\"display: flex; align-items: center; gap: 8px;\"><span style=\"color: #3b82f6;\">👥</span>500+ estudiantes</div><div style=\"display: flex; align-items: center; gap: 8px;\"><span style=\"color: #fbbf24;\">⭐</span>4.9/5 estrellas</div></div>",
+                    "text_orientation": "left"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_2",
+              "modules": [
+                {
+                  "type": "et_pb_image",
+                  "settings": {
+                    "src": "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=800",
+                    "alt": "Guardería Canina Profesional",
+                    "border_radii": "on|20px|20px|20px|20px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "40px",
+                    "box_shadow_color": "rgba(0,0,0,0.15)",
+                    "custom_css_main_element": "position: relative; background: linear-gradient(135deg, #60a5fa, #a855f7); padding: 20px;"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<div style=\"position: absolute; bottom: -20px; right: -20px; background: white; padding: 24px; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center;\"><div style=\"font-size: 32px; font-weight: 700; color: #111827;\">97%</div><div style=\"font-size: 14px; color: #6b7280;\">Tasa de éxito</div></div>",
+                    "text_orientation": "center"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "#f9fafb",
+        "padding": "80px|20px|80px|20px|true|false"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "4_4",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h2 style=\"font-size: 40px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 16px;\">¿Te identificas con alguno de estos problemas?</h2>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<p style=\"font-size: 20px; color: #6b7280; text-align: center; max-width: 600px; margin: 0 auto 60px;\">Muchas personas sueñan con tener su propia guardería canina, pero no saben por dónde empezar</p>",
+                    "text_orientation": "center"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px",
+            "use_custom_gutter": "on",
+            "gutter_width": "4"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "1_3",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "No sabes cómo empezar",
+                    "content": "Tienes la pasión pero te falta la guía paso a paso para convertir tu idea en realidad",
+                    "icon": "❓",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "32px|32px|32px|32px|true|true",
+                    "title_font_size": "20px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827",
+                    "body_text_color": "#6b7280"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_3",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Miedo a los aspectos legales",
+                    "content": "Los permisos, licencias y regulaciones te parecen un laberinto imposible de navegar",
+                    "icon": "⚖️",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "32px|32px|32px|32px|true|true",
+                    "title_font_size": "20px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827",
+                    "body_text_color": "#6b7280"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_3",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Preocupaciones financieras",
+                    "content": "No sabes cuánto invertir, cómo calcular precios o hacer que el negocio sea rentable",
+                    "icon": "💰",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "32px|32px|32px|32px|true|true",
+                    "title_font_size": "20px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827",
+                    "body_text_color": "#6b7280"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "#ffffff",
+        "padding": "80px|20px|80px|20px|true|false"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px",
+            "use_custom_gutter": "on",
+            "gutter_width": "4"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "1_2",
+              "modules": [
+                {
+                  "type": "et_pb_image",
+                  "settings": {
+                    "src": "https://images.pexels.com/photos/1254140/pexels-photo-1254140.jpeg?auto=compress&cs=tinysrgb&w=800",
+                    "alt": "Perros felices en guardería",
+                    "border_radii": "on|24px|24px|24px|24px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "40px",
+                    "box_shadow_color": "rgba(0,0,0,0.15)"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_2",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h2 style=\"font-size: 40px; font-weight: 700; color: #111827; margin-bottom: 24px;\">La Solución Completa que Necesitas</h2>",
+                    "text_orientation": "left"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<p style=\"font-size: 20px; color: #6b7280; line-height: 1.6; margin-bottom: 30px;\">Nuestro curso te proporciona todo lo que necesitas para lanzar y hacer crecer tu guardería canina exitosa, sin importar tu experiencia previa.</p>",
+                    "text_orientation": "left"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<div style=\"space-y: 16px;\"><div style=\"display: flex; align-items: center; gap: 12px; margin-bottom: 16px;\"><span style=\"color: #10b981; font-size: 20px;\">✓</span><span style=\"color: #374151;\">Plan de negocio paso a paso adaptado a guarderías caninas</span></div><div style=\"display: flex; align-items: center; gap: 12px; margin-bottom: 16px;\"><span style=\"color: #10b981; font-size: 20px;\">✓</span><span style=\"color: #374151;\">Guía completa de permisos y aspectos legales</span></div><div style=\"display: flex; align-items: center; gap: 12px; margin-bottom: 16px;\"><span style=\"color: #10b981; font-size: 20px;\">✓</span><span style=\"color: #374151;\">Estrategias de marketing probadas para atraer clientes</span></div><div style=\"display: flex; align-items: center; gap: 12px; margin-bottom: 16px;\"><span style=\"color: #10b981; font-size: 20px;\">✓</span><span style=\"color: #374151;\">Sistema de gestión y precios optimizado</span></div><div style=\"display: flex; align-items: center; gap: 12px; margin-bottom: 16px;\"><span style=\"color: #10b981; font-size: 20px;\">✓</span><span style=\"color: #374151;\">Protocolos de seguridad y cuidado animal</span></div><div style=\"display: flex; align-items: center; gap: 12px; margin-bottom: 16px;\"><span style=\"color: #10b981; font-size: 20px;\">✓</span><span style=\"color: #374151;\">Plantillas y documentos listos para usar</span></div></div>",
+                    "text_orientation": "left"
+                  }
+                },
+                {
+                  "type": "et_pb_button",
+                  "settings": {
+                    "button_text": "Acceder al Curso →",
+                    "button_url": "#precio",
+                    "background_color": "#3b82f6",
+                    "background_gradient": "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+                    "button_text_color": "#ffffff",
+                    "button_border_radius": "12px",
+                    "custom_padding": "16px|32px|16px|32px|true|true",
+                    "button_font_size": "18px",
+                    "button_font_weight": "600",
+                    "hover_transition_duration": "200ms",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(59,130,246,0.3)"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "#f0f9ff",
+        "background_gradient": "linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(147,51,234,0.05) 100%)",
+        "padding": "80px|20px|80px|20px|true|false"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "4_4",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h2 style=\"font-size: 40px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 16px;\">Contenido del Curso</h2>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<p style=\"font-size: 20px; color: #6b7280; text-align: center; max-width: 600px; margin: 0 auto 60px;\">8 módulos completos que te llevan de principiante a experto en gestión de guarderías caninas</p>",
+                    "text_orientation": "center"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px",
+            "use_custom_gutter": "on",
+            "gutter_width": "3"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Fundamentos",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 1</div><div style=\"color: #6b7280; font-size: 14px;\">5 lecciones<br>2 horas</div></div>",
+                    "icon": "📚",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Plan de Negocio",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 2</div><div style=\"color: #6b7280; font-size: 14px;\">7 lecciones<br>3 horas</div></div>",
+                    "icon": "🏆",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Aspectos Legales",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 3</div><div style=\"color: #6b7280; font-size: 14px;\">6 lecciones<br>2.5 horas</div></div>",
+                    "icon": "🛡️",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Instalaciones",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 4</div><div style=\"color: #6b7280; font-size: 14px;\">8 lecciones<br>4 horas</div></div>",
+                    "icon": "🎥",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px",
+            "use_custom_gutter": "on",
+            "gutter_width": "3"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Marketing",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 5</div><div style=\"color: #6b7280; font-size: 14px;\">9 lecciones<br>3.5 horas</div></div>",
+                    "icon": "👥",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Operaciones",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 6</div><div style=\"color: #6b7280; font-size: 14px;\">10 lecciones<br>4 horas</div></div>",
+                    "icon": "⏰",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Finanzas",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 7</div><div style=\"color: #6b7280; font-size: 14px;\">6 lecciones<br>2 horas</div></div>",
+                    "icon": "💰",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_4",
+              "modules": [
+                {
+                  "type": "et_pb_blurb",
+                  "settings": {
+                    "title": "Crecimiento",
+                    "content": "<div style=\"text-align: center;\"><div style=\"color: #3b82f6; font-size: 14px; font-weight: 500; margin-bottom: 8px;\">Módulo 8</div><div style=\"color: #6b7280; font-size: 14px;\">7 lecciones<br>3 horas</div></div>",
+                    "icon": "⭐",
+                    "icon_color": "#3b82f6",
+                    "background_color": "#ffffff",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.08)",
+                    "custom_padding": "24px|24px|24px|24px|true|true",
+                    "title_font_size": "18px",
+                    "title_font_weight": "600",
+                    "title_text_color": "#111827"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "#ffffff",
+        "padding": "80px|20px|80px|20px|true|false"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "4_4",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h2 style=\"font-size: 40px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 16px;\">Lo que dicen nuestros estudiantes</h2>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<p style=\"font-size: 20px; color: #6b7280; text-align: center; margin-bottom: 60px;\">Más de 500 personas han transformado su vida con nuestro curso</p>",
+                    "text_orientation": "center"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "1200px",
+            "use_custom_gutter": "on",
+            "gutter_width": "4"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "1_3",
+              "modules": [
+                {
+                  "type": "et_pb_testimonial",
+                  "settings": {
+                    "author": "María González",
+                    "job_title": "Propietaria de 'Peludos Felices'",
+                    "content": "En 6 meses logré abrir mi guardería y ya tengo lista de espera. El curso me dio toda la confianza y conocimiento que necesitaba.",
+                    "portrait_url": "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150",
+                    "background_color": "#f9fafb",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "custom_padding": "32px|32px|32px|32px|true|true",
+                    "body_text_color": "#374151",
+                    "author_text_color": "#111827",
+                    "position_text_color": "#6b7280"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_3",
+              "modules": [
+                {
+                  "type": "et_pb_testimonial",
+                  "settings": {
+                    "author": "Carlos Martín",
+                    "job_title": "Ex-empleado corporativo",
+                    "content": "Dejé mi trabajo de oficina para seguir mi pasión. Ahora tengo mi propia guardería y gano más que antes. ¡Mejor decisión de mi vida!",
+                    "portrait_url": "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=150",
+                    "background_color": "#f9fafb",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "custom_padding": "32px|32px|32px|32px|true|true",
+                    "body_text_color": "#374151",
+                    "author_text_color": "#111827",
+                    "position_text_color": "#6b7280"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "column",
+              "width": "1_3",
+              "modules": [
+                {
+                  "type": "et_pb_testimonial",
+                  "settings": {
+                    "author": "Ana Ruiz",
+                    "job_title": "Emprendedora",
+                    "content": "Los aspectos legales me daban mucho miedo, pero el curso lo explica todo de manera súper clara. Ya tengo todos los permisos en regla.",
+                    "portrait_url": "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
+                    "background_color": "#f9fafb",
+                    "border_radii": "on|16px|16px|16px|16px",
+                    "custom_padding": "32px|32px|32px|32px|true|true",
+                    "body_text_color": "#374151",
+                    "author_text_color": "#111827",
+                    "position_text_color": "#6b7280"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "#3b82f6",
+        "background_gradient": "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+        "padding": "80px|20px|80px|20px|true|false",
+        "module_id": "precio"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "800px"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "4_4",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h2 style=\"font-size: 40px; font-weight: 700; color: #ffffff; text-align: center; margin-bottom: 32px;\">Invierte en Tu Futuro Hoy</h2>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_pricing_tables",
+                  "settings": {
+                    "featured_table_background_color": "#ffffff",
+                    "featured_table_text_color": "#111827",
+                    "show_bullet": "off",
+                    "center_list_items": "on",
+                    "pricing_item_excluded_color": "#10b981",
+                    "border_radii": "on|24px|24px|24px|24px",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "40px",
+                    "box_shadow_color": "rgba(0,0,0,0.2)",
+                    "custom_padding": "32px|32px|32px|32px|true|true"
+                  },
+                  "pricing_items": [
+                    {
+                      "title": "Curso Completo",
+                      "subtitle": "Acceso de por vida",
+                      "price": "€197",
+                      "per": "pago único",
+                      "button_text": "🎉 OBTENER ACCESO COMPLETO AHORA",
+                      "button_url": "#comprar",
+                      "currency": "",
+                      "sum": "<div style=\"text-align: center; margin-bottom: 24px;\"><div style=\"color: #6b7280; font-size: 18px; text-decoration: line-through;\">Valor: €497</div><div style=\"background: #fef2f2; color: #dc2626; padding: 8px 16px; border-radius: 25px; display: inline-block; font-size: 14px; font-weight: 500; margin-top: 8px;\">⏰ Oferta limitada - Solo por 7 días</div></div>",
+                      "pricing_item": [
+                        "8 módulos completos con 58 lecciones",
+                        "24 horas de contenido en video HD", 
+                        "Plantillas y documentos descargables",
+                        "Acceso de por vida al curso",
+                        "Soporte directo por email",
+                        "Certificado de finalización",
+                        "Actualizaciones gratuitas",
+                        "Garantía de 30 días"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<div style=\"text-align: center; color: rgba(255,255,255,0.8); font-size: 14px; margin-top: 24px;\"><div style=\"margin-bottom: 8px;\">✅ Pago seguro con cifrado SSL</div><div style=\"margin-bottom: 8px;\">✅ Acceso inmediato tras el pago</div><div>✅ Garantía de devolución 30 días</div></div>",
+                    "text_orientation": "center"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "#f9fafb",
+        "padding": "80px|20px|80px|20px|true|false"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "800px"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "4_4",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h2 style=\"font-size: 40px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 16px;\">Preguntas Frecuentes</h2>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<p style=\"font-size: 20px; color: #6b7280; text-align: center; margin-bottom: 60px;\">Resolvemos las dudas más comunes sobre el curso</p>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_accordion",
+                  "settings": {
+                    "toggle_font_size": "18px",
+                    "toggle_font_weight": "600",
+                    "toggle_text_color": "#111827",
+                    "body_text_color": "#6b7280",
+                    "border_color": "#e5e7eb",
+                    "border_radii": "on|12px|12px|12px|12px"
+                  },
+                  "accordion_items": [
+                    {
+                      "title": "¿Necesito experiencia previa con perros?",
+                      "content": "No es necesario tener experiencia profesional previa. El curso está diseñado para principiantes y te enseña todo desde cero, incluyendo comportamiento canino básico y protocolos de seguridad."
+                    },
+                    {
+                      "title": "¿Cuánto tiempo tengo para completar el curso?",
+                      "content": "Tienes acceso de por vida al curso, por lo que puedes aprender a tu propio ritmo. La mayoría de estudiantes completan el curso en 4-6 semanas dedicando 1-2 horas por día."
+                    },
+                    {
+                      "title": "¿El curso incluye información sobre mi país?",
+                      "content": "El curso se enfoca principalmente en España, pero incluye una sección sobre cómo investigar regulaciones locales que te ayudará a adaptarlo a tu ubicación específica."
+                    },
+                    {
+                      "title": "¿Qué pasa si no estoy satisfecho?",
+                      "content": "Ofrecemos una garantía de devolución completa de 30 días. Si no estás satisfecho por cualquier motivo, te devolvemos tu dinero sin preguntas."
+                    },
+                    {
+                      "title": "¿Recibo soporte después de comprar el curso?",
+                      "content": "Sí, incluimos soporte por email para resolver dudas específicas sobre el contenido del curso durante los primeros 90 días después de tu compra."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "settings": {
+        "background_color": "#3b82f6",
+        "background_gradient": "linear-gradient(135deg, #3b82f6, #8b5cf6)",
+        "padding": "80px|20px|80px|20px|true|false"
+      },
+      "rows": [
+        {
+          "type": "row",
+          "settings": {
+            "max_width": "800px"
+          },
+          "columns": [
+            {
+              "type": "column",
+              "width": "4_4",
+              "modules": [
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<h2 style=\"font-size: 40px; font-weight: 700; color: #ffffff; text-align: center; margin-bottom: 24px;\">Tu Guardería Canina te Está Esperando</h2>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<p style=\"font-size: 20px; color: rgba(255,255,255,0.8); text-align: center; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;\">No dejes pasar más tiempo. Cada día que esperas es un día menos construyendo el negocio de tus sueños.</p>",
+                    "text_orientation": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_button",
+                  "settings": {
+                    "button_text": "🚀 COMENZAR MI GUARDERÍA AHORA",
+                    "button_url": "#precio",
+                    "background_color": "#ffffff",
+                    "button_text_color": "#3b82f6",
+                    "button_border_radius": "16px",
+                    "custom_padding": "24px|48px|24px|48px|true|true",
+                    "button_font_size": "20px",
+                    "button_font_weight": "700",
+                    "hover_transition_duration": "200ms",
+                    "box_shadow_style": "preset1",
+                    "box_shadow_blur": "20px",
+                    "box_shadow_color": "rgba(0,0,0,0.2)",
+                    "button_alignment": "center"
+                  }
+                },
+                {
+                  "type": "et_pb_text",
+                  "settings": {
+                    "content": "<div style=\"text-align: center; color: rgba(255,255,255,0.7); font-size: 14px; margin-top: 24px;\">⚡ Acceso inmediato • 💳 Pago seguro • 🔒 Garantía 30 días</div>",
+                    "text_orientation": "center"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_settings": {
+    "primary_color": "#3b82f6",
+    "secondary_color": "#8b5cf6",
+    "accent_color": "#10b981",
+    "body_font": "Open Sans",
+    "header_font": "Montserrat",
+    "body_font_size": "16px",
+    "body_line_height": "1.6em"
+  },
+  "custom_css": ".et_pb_section { overflow: hidden; } .et_pb_button:hover { transform: translateY(-2px); } .et_pb_blurb:hover { transform: translateY(-4px); transition: all 0.3s ease; } .et_pb_pricing_table { transition: all 0.3s ease; } .et_pb_pricing_table:hover { transform: scale(1.02); }"
+}

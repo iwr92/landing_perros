@@ -79,10 +79,10 @@ function App() {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               {/* <Heart className="h-8 w-8 text-blue-600" /> */}
-              <img src="/logo1.png" alt="Logo" style={{ height: '50px'}} />
-              <span className="text-xl font-bold text-gray-900">Motivaxion Dogs</span>
+              <img src="/logo1.png" alt="Logo" style={{ height: '40px'}} />
+              <span className="text-l font-bold text-gray-900">Motivaxion Dogs</span>
             </div>
-            <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+            <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200">
               Obtener Curso
             </button>
           </div>

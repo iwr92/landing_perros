@@ -79,7 +79,7 @@ function App() {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               {/* <Heart className="h-8 w-8 text-blue-600" /> */}
-              <img src="/logo1.png" alt="Logo" style={{ height: '40px'}} />
+              <img src="/newlogo1.png" alt="Logo" style={{ height: '40px'}} />
               <span className="text-l font-bold text-gray-900">Motivaxion Dogs</span>
             </div>
             <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200">
@@ -516,8 +516,8 @@ function App() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <img src="/logo1.png" alt="Logo" style={{ height: '30px'}} />
-              <span className="text-xl font-bold">Motivaxion Dogs</span>
+              <img src="/newlogowhite.png" alt="Logo" style={{ height: '30px'}} />
+              <span className="text-l font-bold">Motivaxion Dogs</span>
             </div>
               <p className="text-gray-400">
                 Convierte tu pasión por los perros en un negocio exitoso y rentable.

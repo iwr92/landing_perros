@@ -71,6 +71,12 @@ function App() {
       });
   }, []);
 
+  const handleLeadClick = (url: string) => {
+    (window as any).fbq?.('track', 'Lead');
+    window.open(url, "_blank");
+  };
+  
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -82,7 +88,7 @@ function App() {
               <img src="/newlogo1.png" alt="Logo" style={{ height: '40px'}} />
               <span className="text-l font-bold text-gray-900">Motivaxion Dogs</span>
             </div>
-            <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+            <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200">
               Obtener Curso
             </button>
           </div>
@@ -108,7 +114,7 @@ function App() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2">
+                <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2">
                   <Play className="h-5 w-5" />
                   <span>Comenzar Ahora</span>
                 </button>
@@ -227,7 +233,7 @@ function App() {
                 ))}
               </div>
 
-              <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center space-x-2">
+              <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center space-x-2">
                 <span>Acceder al Curso</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
@@ -416,7 +422,7 @@ function App() {
                 ))}
               </div>
 
-              <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
+              <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
                 🎉 OBTENER ACCESO COMPLETO AHORA
               </button>
 
@@ -499,7 +505,7 @@ function App() {
           </p>
           
           <div className="space-y-6">
-            <button onClick={() => window.open("https://go.hotmart.com/C95254343F?ap=544e", "_blank")} className="bg-white text-blue-600 px-12 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
+            <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-white text-blue-600 px-12 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
               🚀 COMENZAR MI GUARDERÍA AHORA
             </button>
             

@@ -126,8 +126,8 @@ function App() {
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 animate-bounce" >
-                <button onClick={() => handleLeadClick(isOferta ? 'https://go.hotmart.com/C95254343F?ap=eaf3' : "https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-green-600 to-blue-400 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2">
+              <div className="flex flex-col sm:flex-row gap-4" >
+                <button onClick={() => handleLeadClick(isOferta ? 'https://go.hotmart.com/C95254343F?ap=eaf3' : "https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-green-600 to-blue-400 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2 animate-pulse-glow">
                   <Play className="h-5 w-5" />
                   <span>Obtener Oferta</span>
                 </button>

@@ -21,6 +21,14 @@ import {
 function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  const [isOferta, setIsOferta] = useState(false);
+
+  useEffect(() => {
+    if (window.location.hostname.includes("oferta")) {
+      setIsOferta(true);
+    }
+  }, []);
+
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
@@ -31,7 +39,7 @@ function App() {
 
   useEffect(() => {
     const precioFull = 120;
-    const precioOferta = 50;
+    const precioOferta = isOferta ? 37.5 : 50;
 
     const numberWithCommas = (x:any) => {
       x = x.toString();
@@ -75,7 +83,6 @@ function App() {
     (window as any).fbq?.('track', 'Lead');
     window.open(url, "_blank");
   };
-  
 
   return (
     <div className="min-h-screen bg-white">
@@ -88,12 +95,18 @@ function App() {
               <img src="/newlogo1.png" alt="Logo" style={{ height: '40px'}} />
               <span className="text-l font-bold text-gray-900">Motivaxion Dogs</span>
             </div>
-            <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200">
+            <button onClick={() => handleLeadClick(isOferta ? 'https://go.hotmart.com/C95254343F?ap=eaf3' : "https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200">
               Obtener Curso
             </button>
           </div>
         </div>
       </header>
+
+      {isOferta && (
+        <div className="fixed top-0 left-0 w-full bg-gradient-to-r from-red-600 to-orange-500 text-white text-center py-3 z-50 shadow-lg animate-bounce">
+          🎉 ¡Felicidades! Acabas de desbloquear un <b>25% OFF</b> exclusivo por tiempo limitado ⏰
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="pt-20 pb-16 bg-gradient-to-br from-blue-50 via-white to-purple-50" style={{marginTop:20}}>
@@ -114,9 +127,9 @@ function App() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2">
+                <button onClick={() => handleLeadClick(isOferta ? 'https://go.hotmart.com/C95254343F?ap=eaf3' : "https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2">
                   <Play className="h-5 w-5" />
-                  <span>Comenzar Ahora</span>
+                  <span>Obtener Oferta</span>
                 </button>
                {/*  <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl hover:border-blue-600 hover:text-blue-600 transition-all duration-200 text-lg font-semibold">
                   Ver Demo Gratis
@@ -233,7 +246,7 @@ function App() {
                 ))}
               </div>
 
-              <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center space-x-2">
+              <button onClick={() => handleLeadClick(isOferta ? 'https://go.hotmart.com/C95254343F?ap=eaf3' : "https://go.hotmart.com/C95254343F?ap=544e")} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center space-x-2">
                 <span>Acceder al Curso</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
@@ -397,7 +410,11 @@ function App() {
                 <div className="text-gray-500 text-lg line-through">Valor: {precioTotal} </div>
                 <div className="text-5xl font-bold text-gray-900"> {precio} </div>
                 <div className="text-gray-600">Precio de lanzamiento</div>
-                <div className="text-gray-600" style={{fontStyle:'italic'}}>($49.99 usd)</div>
+                { isOferta ? (
+                  <div className="text-gray-600" style={{fontStyle:'italic'}}>($37.49 usd)</div>
+                ) : (
+                  <div className="text-gray-600" style={{fontStyle:'italic'}}>($49.99 usd)</div>
+                )}
               </div>
               
               <div className="bg-red-100 text-red-800 px-4 py-2 rounded-full inline-block">
@@ -422,7 +439,7 @@ function App() {
                 ))}
               </div>
 
-              <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
+              <button onClick={() => handleLeadClick(isOferta ? 'https://go.hotmart.com/C95254343F?ap=eaf3' : "https://go.hotmart.com/C95254343F?ap=544e")} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
                 🎉 OBTENER ACCESO COMPLETO AHORA
               </button>
 
@@ -505,7 +522,7 @@ function App() {
           </p>
           
           <div className="space-y-6">
-            <button onClick={() => handleLeadClick("https://go.hotmart.com/C95254343F?ap=544e")} className="bg-white text-blue-600 px-12 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
+            <button onClick={() => handleLeadClick(isOferta ? 'https://go.hotmart.com/C95254343F?ap=eaf3' : "https://go.hotmart.com/C95254343F?ap=544e")} className="bg-white text-blue-600 px-12 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold">
               🚀 COMENZAR MI GUARDERÍA AHORA
             </button>
             

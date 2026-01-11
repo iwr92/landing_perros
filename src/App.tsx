@@ -21,7 +21,7 @@ import {
 function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const [isOferta, setIsOferta] = useState(true);
+  const [isOferta, setIsOferta] = useState(false);
 
   // ✅ Urgencia real (contador 24h) SOLO en oferta
   const [offerExpiresAt, setOfferExpiresAt] = useState<number | null>(null);

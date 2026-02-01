@@ -25,6 +25,8 @@ type FAQItem = { question: string; answer: string };
 
 function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openSyllabus, setOpenSyllabus] = useState<number | null>(null);
+  const toggleSyllabus = (idx: number) => setOpenSyllabus(openSyllabus === idx ? null : idx);
 
   // ✅ Oferta (según hostname) — lo mantenemos igual
   const [isOferta, setIsOferta] = useState(false);
@@ -48,37 +50,36 @@ function App() {
 
   // ✅ Editables (MUY importante para confianza)
   const INSTRUCTOR = useMemo(
-    () => ({
-      name: "Equipo Motivaxion Dogs",
-      title: "Formación práctica en guarderías caninas",
-      bioShort:
-        "Creamos esta guía para que puedas empezar con orden, seguridad y criterio profesional, evitando errores típicos de quienes improvisan.",
-      // Si tenés nombres reales, ponelos acá (sube MUCHO la conversión)
-      // Ej: [{name:"Nombre Apellido", role:"...", exp:"...", photo:"..."}]
-      people: [
-        {
-          name: "Equipo de contenidos",
-          role: "Estrategia, operación y gestión",
-          exp: "Enfoque 100% práctico para emprender con procesos, precios y captación.",
-          photo:
-            "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150",
-        },
-        {
-          name: "Equipo de soporte",
-          role: "Acompañamiento por email + comunidad",
-          exp: "Te ayudamos a destrabar dudas y avanzar con claridad.",
-          photo:
-            "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150",
-        },
-      ],
-      proof: [
-        { icon: Users, label: "500+ estudiantes", sub: "Ya lo tomaron" },
-        { icon: Star, label: "4.9/5", sub: "Valoración promedio" },
-        { icon: Shield, label: "Garantía 7 días", sub: "Compra sin riesgo" },
-      ],
-    }),
-    []
-  );
+  () => ({
+    name: "Diego Alejandro y Steffany",
+    title: "Creadores del curso (formación práctica)",
+    bioShort:
+      "Este curso fue creado por Diego Alejandro y Steffany. Está diseñado para ayudarte a montar y operar una guardería canina con orden, protocolos y criterios de negocio, sin improvisar.",
+    people: [
+      {
+        name: "Diego Alejandro",
+        role: "Instructor • Operación y gestión",
+        exp: "Enfoque práctico: procesos, organización diaria, precios y estructura del servicio.",
+        photo:
+          "",
+      },
+      {
+        name: "Steffany",
+        role: "Instructora • Cuidado y bienestar animal",
+        exp: "Protocolos de cuidado, bienestar, prevención y criterios para operar con seguridad.",
+        photo:
+          "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150",
+      },
+    ],
+    proof: [
+      { icon: Users, label: "500+ estudiantes", sub: "Ya lo tomaron" },
+      { icon: Star, label: "4.7/5", sub: "Valoración oficial" },
+      { icon: Shield, label: "Garantía 7 días", sub: "Compra sin riesgo" },
+    ],
+  }),
+  []
+);
+
 
   const COURSE = useMemo(
     () => ({
@@ -179,6 +180,78 @@ function App() {
     }),
     []
   );
+
+
+  const SYLLABUS = useMemo(
+  () => [
+    {
+      title: "Módulo 1 — Introducción",
+      lessons: [
+        "Bienvenida al curso",
+        "¿Qué vas a lograr con esta formación?",
+        "Cómo usar el curso y el plan paso a paso",
+      ],
+    },
+    {
+      title: "Módulo 2 — Definiciones y etapas",
+      lessons: [
+        "Qué es una guardería canina (y qué no)",
+        "Etapas para montar el negocio",
+        "Errores típicos de principiantes",
+      ],
+    },
+    {
+      title: "Módulo 3 — Planificación y diseño",
+      lessons: [
+        "Diseño del servicio y operación",
+        "Organización del espacio y flujo de trabajo",
+        "Checklist de implementación",
+      ],
+    },
+    {
+      title: "Módulo 4 — Normativa y permisos",
+      lessons: [
+        "Cómo investigar normativa en tu zona",
+        "Checklist legal (adaptable a tu país/ciudad)",
+        "Buenas prácticas y seguridad",
+      ],
+    },
+    {
+      title: "Módulo 5 — Gestión de la guardería",
+      lessons: [
+        "Procesos diarios: entrada/salida y control",
+        "Manejo de agenda y capacidad",
+        "Atención al cliente y reglas del servicio",
+      ],
+    },
+    {
+      title: "Módulo 6 — Cuidado y bienestar animal",
+      lessons: [
+        "Bienestar y manejo responsable",
+        "Prevención y protocolos",
+        "Casos comunes y decisiones prácticas",
+      ],
+    },
+    {
+      title: "Módulo 7 — Marketing y publicidad",
+      lessons: [
+        "Cómo conseguir clientes sin improvisar",
+        "Mensajes y oferta",
+        "Acciones concretas (orgánico + pago)",
+      ],
+    },
+    {
+      title: "Módulo 8 — Conclusiones y recomendaciones",
+      lessons: [
+        "Checklist final",
+        "Errores a evitar",
+        "Próximos pasos",
+      ],
+    },
+  ],
+  []
+);
+
 
   useEffect(() => {
     try {
@@ -299,11 +372,6 @@ function App() {
 
   const faqs: FAQItem[] = [
     {
-      question: "¿Quién dicta el curso?",
-      answer:
-        "El curso fue desarrollado por el equipo de Motivaxion Dogs. Incluye contenido práctico, plantillas y un sistema paso a paso. Además, tenés soporte por email y acceso a comunidad privada para resolver dudas de implementación.",
-    },
-    {
       question: "¿Esto es un seminario, tecnicatura o curso?",
       answer:
         "Es un curso online (contenido en video + lecciones + plantillas). No es una tecnicatura oficial ni un título habilitante estatal. Está pensado para que puedas aplicar y emprender con orden y seguridad, desde cero.",
@@ -321,7 +389,7 @@ function App() {
     {
       question: "¿El curso sirve para mi país?",
       answer:
-        "El curso se enfoca en Colombia como referencia, pero incluye cómo investigar y adaptar normativa y requisitos a tu ubicación (checklist y guía para validar lo legal/local).",
+        "El curso es a nivel global y se puede realizar desde cualquier parte del mundo (se enfoca en Colombia como referencia), incluye cómo investigar y adaptar normativa y requisitos a tu ubicación (checklist y guía para validar lo legal/local).",
     },
     {
       question: "¿Qué pasa si no estoy satisfecho?",
@@ -376,7 +444,7 @@ function App() {
                 <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
                   <Star className="h-4 w-4" />
                   <span>
-                    {isRM ? "Volviste: acá tenés todo para decidir con confianza" : "Curso #1 en Guarderías Caninas"}
+                    {isRM ? "Volviste: aquí tienes todo para decidir con confianza" : "Curso #1 en Guarderías Caninas"}
                   </span>
                 </div>
 
@@ -504,7 +572,6 @@ function App() {
               <div className="mt-6 space-y-4">
                 {INSTRUCTOR.people.map((person, i) => (
                   <div key={i} className="flex items-center gap-4 bg-white border border-gray-200 rounded-2xl p-4">
-                    <img src={person.photo} alt={person.name} className="w-12 h-12 rounded-full object-cover" />
                     <div>
                       <div className="font-semibold text-gray-900">{person.name}</div>
                       <div className="text-sm text-gray-600">{person.role}</div>
@@ -715,6 +782,48 @@ function App() {
             ))}
           </div>
 
+          {/* ✅ Temario completo (colapsable) */}
+          <div className="mt-12 max-w-4xl mx-auto">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">Temario completo</h3>
+              <p className="text-gray-600 mt-2">
+                Para quienes quieren ver el detalle de cada módulo y lección antes de decidir.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {SYLLABUS.map((m, idx) => (
+                <div key={idx} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                  <button
+                    onClick={() => toggleSyllabus(idx)}
+                    className="w-full px-5 py-4 text-left flex justify-between items-center hover:bg-gray-50"
+                  >
+                    <span className="font-semibold text-gray-900">{m.title}</span>
+                    {openSyllabus === idx ? (
+                      <ChevronUp className="h-5 w-5 text-gray-500" />
+                    ) : (
+                      <ChevronDown className="h-5 w-5 text-gray-500" />
+                    )}
+                  </button>
+
+                  {openSyllabus === idx && (
+                    <div className="px-5 pb-4">
+                      <ul className="space-y-2 text-gray-600">
+                        {m.lessons.map((l, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="mt-2 h-2 w-2 rounded-full bg-gray-400" />
+                            <span>{l}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+
           <div className="text-center mt-10">
             <button
               onClick={goToPricing}
@@ -847,7 +956,7 @@ function App() {
       <section id={PRICING_ID} className="py-20 bg-gradient-to-br from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">
-            Tomá una decisión simple hoy
+            Toma una decisión simple hoy
           </h2>
 
           <div className="bg-white rounded-3xl p-8 shadow-2xl">
@@ -906,6 +1015,17 @@ function App() {
                   </div>
                 ))}
               </div>
+
+              {isRM && (
+                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left">
+                  <div className="font-semibold text-gray-900">Antes de comprar (2 aclaraciones rápidas)</div>
+                  <div className="text-gray-600 mt-2">
+                    ✅ Es un <b>curso online</b> (videos + lecciones + plantillas).<br/>
+                    ✅ No es una tecnicatura oficial. Es una guía práctica para aplicar y avanzar con orden.
+                  </div>
+                </div>
+              )}
+
 
               {/* ✅ Botón de compra directo — NO TOCAR HOTLINKS */}
               <button

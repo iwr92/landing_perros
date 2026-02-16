@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Heart,
   Star,
   Play,
   CheckCircle,
@@ -15,13 +14,17 @@ import {
   ArrowRight,
   Shield,
   BookOpen,
-  Video
+  Video,
+  Download,
+  Sparkles
 } from 'lucide-react';
 
 function App() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  // ✅ Detecta qué versión mostrar según subdominio
   const [isOferta, setIsOferta] = useState(false);
+  const [isEbook, setIsEbook] = useState(false);
 
   // ✅ Urgencia real (contador 24h) SOLO en oferta
   const [offerExpiresAt, setOfferExpiresAt] = useState<number | null>(null);
@@ -31,9 +34,9 @@ function App() {
   const PRICING_ID = "pricing";
 
   useEffect(() => {
-    if (window.location.hostname.includes("oferta")) {
-      setIsOferta(true);
-    }
+    const host = window.location.hostname;
+    if (host.includes("oferta")) setIsOferta(true);
+    if (host.includes("local")) setIsEbook(true);
   }, []);
 
   // ✅ inicializa deadline (persistente por usuario) cuando es oferta
@@ -45,7 +48,7 @@ function App() {
     let expiresAt = stored ? Number(stored) : NaN;
 
     if (!expiresAt || Number.isNaN(expiresAt) || expiresAt < Date.now()) {
-      expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24hs
+      expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24h
       localStorage.setItem(key, String(expiresAt));
     }
 
@@ -83,10 +86,25 @@ function App() {
   const [precioLocal, setPrecioLocal] = useState("");
   const [precioTotal, setPrecioTotal] = useState("");
 
-  // ✅ IMPORTANTE: este effect debe depender de isOferta
+  // ✅ Links (cambia estos 2 del ebook cuando los tengas)
+  const HOTMART_CURSO_NORMAL = "https://go.hotmart.com/C95254343F?ap=544e";
+  const HOTMART_CURSO_OFERTA = "https://go.hotmart.com/C95254343F?ap=eaf3";
+
+  const HOTMART_EBOOK_NORMAL = "https://go.hotmart.com/REEMPLAZAR_EBOOK_NORMAL";
+  const HOTMART_EBOOK_OFERTA = "https://go.hotmart.com/REEMPLAZAR_EBOOK_OFERTA";
+
+  // ✅ Pricing dinámico por país (depende de: isOferta + isEbook)
   useEffect(() => {
-    const precioFull = 120;
-    const precioOferta = isOferta ? 37.5 : 50;
+    // Define precios base
+    const precioFullCurso = 120;
+    const precioCurso = isOferta ? 37.5 : 50;
+
+    // Ebook (ajusta si quieres)
+    const precioFullEbook = 9;
+    const precioEbook = 9;
+
+    const chosenFull = isEbook ? precioFullEbook : precioFullCurso;
+    const chosen = isEbook ? precioEbook : precioCurso;
 
     const numberWithCommas = (x: any) => {
       x = x.toString();
@@ -101,46 +119,227 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.currency_code !== "USD") {
-          const precioConvertido = (
-            data.currency_rates * precioOferta * 1.064
-          ).toFixed();
-          setPrecio(
-            `${data.currency_symbol}${numberWithCommas(precioConvertido)} ${data.currency_code}`
-          );
-          setPrecioLocal(
-            `Precio en tu moneda local  ` +
-              `<img src="${data.country_flag}" width="23px" alt="flag"/>`
-          );
+          const precioConvertido = (data.currency_rates * chosen * 1.064).toFixed();
+          setPrecio(`${data.currency_symbol}${numberWithCommas(precioConvertido)} ${data.currency_code}`);
+          setPrecioLocal(`Precio en tu moneda local  <img src="${data.country_flag}" width="23px" alt="flag"/>`);
 
-          const precioConvertidoTotal = (
-            data.currency_rates * precioFull * 1.064
-          ).toFixed();
-          setPrecioTotal(
-            `${data.currency_symbol}${numberWithCommas(precioConvertidoTotal)} ${data.currency_code}`
-          );
+          const precioConvertidoTotal = (data.currency_rates * chosenFull * 1.064).toFixed();
+          setPrecioTotal(`${data.currency_symbol}${numberWithCommas(precioConvertidoTotal)} ${data.currency_code}`);
         } else {
           // ✅ fallback USD consistente
-          setPrecio(isOferta ? "$37.50 USD" : "$49.99 USD");
-          setPrecioTotal("$120.00 USD");
+          if (isEbook) {
+            setPrecio(isOferta ? "$19.00 USD" : "$27.00 USD");
+            setPrecioTotal("$39.00 USD");
+          } else {
+            setPrecio(isOferta ? "$37.50 USD" : "$49.99 USD");
+            setPrecioTotal("$120.00 USD");
+          }
         }
       })
       .catch(() => {
         // ✅ fallback si falla la API
-        setPrecio(isOferta ? "$37.50 USD" : "$49.99 USD");
-        setPrecioTotal("$120.00 USD");
+        if (isEbook) {
+          setPrecio(isOferta ? "$19.00 USD" : "$27.00 USD");
+          setPrecioTotal("$39.00 USD");
+        } else {
+          setPrecio(isOferta ? "$37.50 USD" : "$49.99 USD");
+          setPrecioTotal("$120.00 USD");
+        }
       });
-  }, [isOferta]);
+  }, [isOferta, isEbook]);
 
   const handleLeadClick = (url: string) => {
     (window as any).fbq?.('track', 'Lead');
     window.open(url, "_blank");
   };
 
-  // ✅ CTA que lleva a precio (mejor para cierre)
+  // ✅ CTA que lleva a precio
   const goToPricing = () => {
     const el = document.getElementById(PRICING_ID);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  // ✅ Contenido dinámico (Curso vs Ebook)
+  const page = useMemo(() => {
+    if (!isEbook) {
+      return {
+        badge: "Curso #1 en Guarderías Caninas",
+        heroTitleA: "Deja de postergar tu idea de",
+        heroTitleB: "trabajar con perros",
+        heroDesc:
+          "Aprende a crear una guardería canina organizada, profesional y rentable, incluso si hoy no sabes por dónde empezar.",
+        heroCta: isOferta ? "Ver oferta 25% OFF" : "Ver precio y contenido",
+        heroImg:
+          "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        solutionImg:
+          "https://images.pexels.com/photos/1254140/pexels-photo-1254140.jpeg?auto=compress&cs=tinysrgb&w=1200",
+        pricingTitle: "Toma una decisión simple hoy",
+        pricingSub: isOferta ? "25% OFF EXTRA activado — por tiempo limitado" : "Precio de lanzamiento",
+        buyText: isOferta ? "🎉 Aprovechar 25% OFF y acceder ahora" : "🚀 Obtener acceso completo ahora",
+        buyUrl: isOferta ? HOTMART_CURSO_OFERTA : HOTMART_CURSO_NORMAL,
+        includes: [
+          "10 módulos completos con 35 lecciones",
+          "Plantillas y documentos descargables",
+          "Acceso de por vida al curso",
+          "Soporte directo por email y grupo",
+          "Certificado de finalización",
+          "Actualizaciones gratuitas",
+          "Garantía de 7 días"
+        ],
+      };
+    }
+
+    // ✅ EBOOK
+    return {
+      badge: "Ebook práctico + checklist + plantillas",
+      heroTitleA: "Cómo montar una guardería canina rentable",
+      heroTitleB: "(desde cero y sin errores)",
+      heroDesc:
+        "Una guía directa, clara y aplicable para planear, organizar y lanzar tu guardería con orden, seguridad y números realistas. Ideal si quieres empezar bien y evitar improvisaciones.",
+      heroCta: isOferta ? "Ver oferta del ebook" : "Ver precio del ebook",
+      heroImg:
+        "https://i.ibb.co/TDjDgf4r/english-setter-dog-greenhouse.jpg",
+      solutionImg:
+        "https://i.ibb.co/1GNzsjnG/owner-petting-dog-park.jpg",
+      pricingTitle: "Llévate la guía y avanza con claridad",
+      pricingSub: isOferta ? "Oferta activada — cupo/tiempo limitado" : "Acceso inmediato (descarga al instante)",
+      buyText: isOferta ? "🎁 Comprar ebook con descuento" : "📘 Comprar ebook ahora",
+      buyUrl: isOferta ? HOTMART_EBOOK_OFERTA : HOTMART_EBOOK_NORMAL,
+      includes: [
+        "Guía paso a paso (sin relleno)",
+        "Checklist de requisitos y preparación",
+        "Plantillas listas para usar",
+        "Estructura de precios y costos (base)",
+        "Protocolos de operación y manejo del grupo",
+        "Errores comunes y cómo evitarlos",
+        "Garantía de 7 días"
+      ],
+    };
+  }, [isEbook, isOferta]);
+
+  // ✅ Secciones dinámicas para Ebook (problemas + solución + bullets)
+  const problems = useMemo(() => {
+    if (!isEbook) {
+      return [
+        {
+          title: "No sabes cómo empezar",
+          description: "Tienes la pasión pero te falta una guía paso a paso para convertir tu idea en realidad.",
+          icon: "❓"
+        },
+        {
+          title: "Miedo a los aspectos legales",
+          description: "Permisos, licencias y regulaciones se sienten como un laberinto difícil de entender.",
+          icon: "⚖️"
+        },
+        {
+          title: "Preocupaciones financieras",
+          description: "No sabes cuánto invertir, cómo poner precios o qué hacer para que sea rentable.",
+          icon: "💰"
+        }
+      ];
+    }
+
+    return [
+      {
+        title: "Quieres hacerlo bien desde el día 1",
+        description: "No quieres improvisar ni “ver qué pasa”. Quieres un plan claro, ordenado y aplicable.",
+        icon: "🧠"
+      },
+      {
+        title: "Te preocupa la seguridad y el manejo del grupo",
+        description: "Sabes que no es solo “perros sueltos”. Necesitas rutinas, supervisión y control.",
+        icon: "🛡️"
+      },
+      {
+        title: "Quieres números realistas",
+        description: "Quieres entender costos, precios y qué necesitas para que el proyecto sea sostenible.",
+        icon: "📊"
+      }
+    ];
+  }, [isEbook]);
+
+  const solutionBullets = useMemo(() => {
+    if (!isEbook) {
+      return [
+        "Plan de negocio paso a paso adaptado a guarderías caninas",
+        "Guía completa de permisos y aspectos legales",
+        "Estrategias de marketing probadas para atraer clientes",
+        "Sistema de gestión y precios optimizado",
+        "Protocolos de seguridad y cuidado animal",
+        "Plantillas y documentos listos para usar"
+      ];
+    }
+
+    return [
+      "Qué es (y qué no es) una guardería canina profesional",
+      "Cómo organizar el día, rutinas, descanso y manejo del grupo",
+      "Checklist de lo básico para empezar con orden",
+      "Cómo definir servicios y precios sin regalar tu trabajo",
+      "Errores comunes que cuestan dinero y reputación",
+      "Plantillas y listas para implementar más rápido"
+    ];
+  }, [isEbook]);
+
+  const faq = useMemo(() => {
+    if (!isEbook) {
+      return [
+        {
+          question: "¿Necesito experiencia previa con perros?",
+          answer:
+            "No es necesario tener experiencia profesional previa. El curso está diseñado para principiantes y te enseña todo desde cero, incluyendo fundamentos y protocolos de seguridad."
+        },
+        {
+          question: "¿Cuánto tiempo tengo para completar el curso?",
+          answer: "Tienes acceso de por vida al curso, por lo que puedes avanzar a tu ritmo."
+        },
+        {
+          question: "¿El curso incluye información sobre mi país?",
+          answer:
+            "El curso se enfoca principalmente en Colombia, pero incluye una sección sobre cómo investigar regulaciones locales para adaptarlo a tu ubicación."
+        },
+        {
+          question: "¿Qué pasa si no estoy satisfecho?",
+          answer:
+            "Ofrecemos garantía de devolución de 7 días. Si no estás satisfecho, puedes solicitar el reembolso."
+        },
+        {
+          question: "¿Recibo soporte después de comprar el curso?",
+          answer:
+            "Sí, incluimos soporte por email y también contamos con un grupo privado."
+        }
+      ];
+    }
+
+    return [
+      {
+        question: "¿El ebook sirve si todavía no tengo local?",
+        answer:
+          "Sí. La guía está pensada para ayudarte a planear desde cero: servicios, organización, costos y pasos para empezar con claridad (incluye opciones para iniciar en pequeño)."
+      },
+      {
+        question: "¿Incluye plantillas o recursos descargables?",
+        answer:
+          "Sí. Incluye checklist y plantillas listas para usar para que avances más rápido y con orden."
+      },
+      {
+        question: "¿Cuándo lo recibo?",
+        answer:
+          "El acceso es inmediato. Tras el pago podrás descargarlo al instante."
+      },
+      {
+        question: "¿Sirve para mi país?",
+        answer:
+          "La guía es aplicable a cualquier país porque se centra en estructura operativa, organización, precios y buenas prácticas. Para temas legales, te orienta a cómo validar requisitos en tu zona."
+      },
+      {
+        question: "¿Tiene garantía?",
+        answer:
+          "Sí. Tienes 7 días de garantía para solicitar reembolso si no es lo que esperabas."
+      }
+    ];
+  }, [isEbook]);
+
+  const showCourseModules = !isEbook; // el ebook no necesita módulos
 
   return (
     <div className="min-h-screen bg-white">
@@ -153,7 +352,6 @@ function App() {
               <span className="text-l font-bold text-gray-900">Motivaxion Dogs</span>
             </div>
 
-            {/* ✅ CTA header: en oferta empuja a precio (menos fricción); si no, igual */}
             <button
               onClick={goToPricing}
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-1 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200"
@@ -164,14 +362,14 @@ function App() {
         </div>
       </header>
 
-      {/* ✅ Banner oferta: SIN bounce (parece spam) + no tapa header */}
+      {/* Banner oferta */}
       {isOferta && (
         <div className="fixed top-[72px] left-0 w-full bg-gradient-to-r from-red-600 to-orange-500 text-white text-center py-2 z-50 shadow-lg">
-          🎉 25% OFF exclusivo <b>por tiempo limitado</b> — vence en <b>{offerCountdown || "24:00:00"}</b>
+          🎉 Descuento por tiempo limitado — vence en <b>{offerCountdown || "24:00:00"}</b>
         </div>
       )}
 
-      {/* ✅ Ajuste de padding top si hay banner */}
+      {/* Hero */}
       <section
         className="pt-20 pb-16 bg-gradient-to-br from-blue-50 via-white to-purple-50"
         style={{ marginTop: isOferta ? 52 : 20 }}
@@ -182,47 +380,58 @@ function App() {
               <div className="space-y-4">
                 <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
                   <Star className="h-4 w-4" />
-                  <span>Curso #1 en Guarderías Caninas</span>
+                  <span>{page.badge}</span>
                 </div>
 
-                {/* ✅ HERO NUEVO: más decisión, menos "lindo" */}
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  Deja de postergar tu idea de{" "}
+                  {page.heroTitleA}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                    trabajar con perros
+                    {page.heroTitleB}
                   </span>
                 </h1>
 
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Aprende a crear una guardería canina{" "}
-                  <b>organizada</b>, <b>profesional</b> y <b>rentable</b>, incluso si hoy no sabés por dónde empezar.
+                  {page.heroDesc}
                 </p>
 
-                {/* ✅ micro refuerzo: para tráfico Ads */}
                 <div className="flex flex-wrap gap-3 text-sm text-gray-700">
-                  <span className="inline-flex items-center gap-2 bg-white border border-gray-200 px-3 py-2 rounded-xl">
-                    <CheckCircle className="h-4 w-4 text-green-500" /> Sin experiencia previa
-                  </span>
                   <span className="inline-flex items-center gap-2 bg-white border border-gray-200 px-3 py-2 rounded-xl">
                     <CheckCircle className="h-4 w-4 text-green-500" /> Paso a paso
                   </span>
+                  <span className="inline-flex items-center gap-2 bg-white border border-gray-200 px-3 py-2 rounded-xl">
+                    <CheckCircle className="h-4 w-4 text-green-500" /> Sin improvisar
+                  </span>
+                  {isEbook && (
+                    <span className="inline-flex items-center gap-2 bg-white border border-gray-200 px-3 py-2 rounded-xl">
+                      <Download className="h-4 w-4 text-blue-600" /> Descarga inmediata
+                    </span>
+                  )}
                   {isOferta && (
                     <span className="inline-flex items-center gap-2 bg-red-50 border border-red-200 px-3 py-2 rounded-xl text-red-700">
-                      <Clock className="h-4 w-4" /> 25% OFF • vence en {offerCountdown || "24:00:00"}
+                      <Clock className="h-4 w-4" /> Descuento • vence en {offerCountdown || "24:00:00"}
                     </span>
                   )}
                 </div>
               </div>
 
-              {/* ✅ CTA hero: a precio (mejor conversión) */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={goToPricing}
                   className="bg-gradient-to-r from-green-600 to-blue-400 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2"
                 >
                   <Play className="h-5 w-5" />
-                  <span>{isOferta ? "Ver oferta 25% OFF" : "Ver precio y contenido"}</span>
+                  <span>{page.heroCta}</span>
                 </button>
+
+                {isEbook && (
+                  <button
+                    onClick={() => handleLeadClick(page.buyUrl)}
+                    className="bg-white border border-gray-200 text-gray-900 px-8 py-4 rounded-xl hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 text-lg font-semibold flex items-center justify-center space-x-2"
+                  >
+                    <Sparkles className="h-5 w-5" />
+                    <span>Quiero la guía ahora</span>
+                  </button>
+                )}
               </div>
 
               <div className="flex items-center space-x-8 text-sm text-gray-600">
@@ -232,64 +441,76 @@ function App() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Users className="h-5 w-5 text-blue-500" />
-                  <span>500+ estudiantes</span>
+                  <span>{isEbook ? "Miles de descargas" : "500+ estudiantes"}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  <span>4.9/5 estrellas</span>
+                  <span>4.9/5</span>
                 </div>
               </div>
             </div>
 
+            {/* Lado derecho: imagen + mock ebook */}
             <div className="relative">
-              <div className="bg-gradient-to-br from-blue-400 to-purple-500 rounded-3xl shadow-2xl">
+              <div className="rounded-3xl shadow-2xl">
                 <img
-                  src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Guardería Canina"
+                  src={page.heroImg}
+                  alt={isEbook ? "Ebook guardería canina" : "Guardería Canina"}
                   className="w-full h-80 object-cover rounded-2xl"
                 />
-                <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-gray-900">97%</div>
-                    <div className="text-sm text-gray-600">Tasa de éxito</div>
+
+                {isEbook && (
+                  <div className="absolute -bottom-8 -right-6 bg-white p-5 rounded-2xl shadow-xl w-[270px]">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white w-12 h-12 rounded-xl flex items-center justify-center">
+                        <BookOpen className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-gray-900 leading-tight">
+                          Ebook: Guardería Canina Rentable
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Checklist + plantillas + guía práctica
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-4 text-xs text-gray-600">
+                      Descarga inmediata • Garantía 7 días
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {!isEbook && (
+                  <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-gray-900">97%</div>
+                      <div className="text-sm text-gray-600">Tasa de éxito</div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Problem Section (igual) */}
+      {/* Problem Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-              ¿Te identificas con alguno de estos problemas?
+              {isEbook ? "Si esto te suena familiar, esta guía es para ti" : "¿Te identificas con alguno de estos problemas?"}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Muchas personas sueñan con tener su propia guardería canina, pero no saben por dónde empezar
+              {isEbook
+                ? "Cuando empiezas sin estructura, los errores cuestan dinero, tiempo y reputación. Evítalos con un plan claro."
+                : "Muchas personas sueñan con tener su propia guardería canina, pero no saben por dónde empezar."}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "No sabes cómo empezar",
-                description: "Tienes la pasión pero te falta la guía paso a paso para convertir tu idea en realidad",
-                icon: "❓"
-              },
-              {
-                title: "Miedo a los aspectos legales",
-                description: "Los permisos, licencias y regulaciones te parecen un laberinto imposible de navegar",
-                icon: "⚖️"
-              },
-              {
-                title: "Preocupaciones financieras",
-                description: "No sabes cuánto invertir, cómo calcular precios o hacer que el negocio sea rentable",
-                icon: "💰"
-              }
-            ].map((problem, index) => (
+            {problems.map((problem, index) => (
               <div key={index} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
                 <div className="text-4xl mb-4">{problem.icon}</div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">{problem.title}</h3>
@@ -297,37 +518,43 @@ function App() {
               </div>
             ))}
           </div>
+
+          <div className="text-center mt-10">
+            <button
+              onClick={goToPricing}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-bold"
+            >
+              {isEbook ? "Ver precio del ebook" : "Ver precio y acceder"}
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* Solution Section (igual, pero CTA baja a precio) */}
+      {/* Solution Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <img
-                src="https://images.pexels.com/photos/1254140/pexels-photo-1254140.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Perros felices en guardería"
+                src={page.solutionImg}
+                alt="Solución"
                 className="w-full h-96 object-cover rounded-3xl shadow-2xl"
               />
             </div>
+
             <div className="space-y-6">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-                La Solución Completa que Necesitas
+                {isEbook ? "Una guía práctica para avanzar con seguridad" : "La Solución Completa que Necesitas"}
               </h2>
+
               <p className="text-xl text-gray-600">
-                Nuestro curso te proporciona todo lo que necesitas para lanzar y hacer crecer tu guardería canina, sin importar tu experiencia previa.
+                {isEbook
+                  ? "Esta guía te ayuda a ordenar tus ideas, definir un plan realista y comenzar con estructura. Ideal si quieres claridad antes de invertir."
+                  : "Nuestro curso te proporciona todo lo que necesitas para lanzar y hacer crecer tu guardería canina, sin importar tu experiencia previa."}
               </p>
 
               <div className="space-y-4">
-                {[
-                  "Plan de negocio paso a paso adaptado a guarderías caninas",
-                  "Guía completa de permisos y aspectos legales",
-                  "Estrategias de marketing probadas para atraer clientes",
-                  "Sistema de gestión y precios optimizado",
-                  "Protocolos de seguridad y cuidado animal",
-                  "Plantillas y documentos listos para usar"
-                ].map((benefit, index) => (
+                {solutionBullets.map((benefit, index) => (
                   <div key={index} className="flex items-center space-x-3">
                     <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />
                     <span className="text-gray-700">{benefit}</span>
@@ -339,7 +566,7 @@ function App() {
                 onClick={goToPricing}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-semibold flex items-center space-x-2"
               >
-                <span>Ver precio y acceder</span>
+                <span>{isEbook ? "Ver precio del ebook" : "Ver precio y acceder"}</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
             </div>
@@ -347,60 +574,64 @@ function App() {
         </div>
       </section>
 
-      {/* Course Content (igual) */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-              Contenido del Curso
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              accederás a 35 lecciones que te llevan de principiante a experto en gestión de guarderías caninas. Estas son algunas de ellas:
-            </p>
-          </div>
+      {/* Course Content (solo curso) */}
+      {showCourseModules && (
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center space-y-4 mb-16">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+                Contenido del Curso
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Accederás a 35 lecciones que te llevan de principiante a experto en gestión de guarderías caninas. Estas son algunas de ellas:
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { module: "Módulo 1", title: "Fundamentos", lessons: "5 lecciones", icon: BookOpen },
-              { module: "Módulo 2", title: "Definiciones y Etapas", lessons: "3 lecciones", icon: Award },
-              { module: "Módulo 3", title: "Planificación y Diseño", lessons: "5 lecciones", icon: Shield },
-              { module: "Módulo 4", title: "Normativa y Permisos", lessons: "3 lecciones", icon: Video },
-              { module: "Módulo 5", title: "Gestión de la guardería canina campestre", lessons: "6 lecciones", icon: Users },
-              { module: "Módulo 6", title: "Cuidado y Bienestar animal", lessons: "5 lecciones", icon: Clock },
-              { module: "Módulo 7", title: "Marketing y Publicidad", lessons: "3 lecciones", icon: DollarSign },
-              { module: "Módulo 8", title: "Conclusiones y recomendaciones", lessons: "3 lecciones", icon: Star },
-            ].map((item, index) => (
-              <div key={index} className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200">
-                <div className="text-center space-y-4">
-                  <div className="bg-gradient-to-r from-blue-100 to-purple-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto">
-                    <item.icon className="h-8 w-8 text-blue-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-blue-600 font-medium">{item.module}</div>
-                    <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
-                  </div>
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <div>{item.lessons}</div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { module: "Módulo 1", title: "Fundamentos", lessons: "5 lecciones", icon: BookOpen },
+                { module: "Módulo 2", title: "Definiciones y Etapas", lessons: "3 lecciones", icon: Award },
+                { module: "Módulo 3", title: "Planificación y Diseño", lessons: "5 lecciones", icon: Shield },
+                { module: "Módulo 4", title: "Normativa y Permisos", lessons: "3 lecciones", icon: Video },
+                { module: "Módulo 5", title: "Gestión de la guardería canina campestre", lessons: "6 lecciones", icon: Users },
+                { module: "Módulo 6", title: "Cuidado y Bienestar animal", lessons: "5 lecciones", icon: Clock },
+                { module: "Módulo 7", title: "Marketing y Publicidad", lessons: "3 lecciones", icon: DollarSign },
+                { module: "Módulo 8", title: "Conclusiones y recomendaciones", lessons: "3 lecciones", icon: Star },
+              ].map((item, index) => (
+                <div key={index} className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-200">
+                  <div className="text-center space-y-4">
+                    <div className="bg-gradient-to-r from-blue-100 to-purple-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto">
+                      <item.icon className="h-8 w-8 text-blue-600" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-blue-600 font-medium">{item.module}</div>
+                      <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
+                    </div>
+                    <div className="text-sm text-gray-600 space-y-1">
+                      <div>{item.lessons}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* ✅ NUEVO BLOQUE: Este curso es / no es para vos (ANTES de precios) */}
+      {/* ✅ Bloque: para ti / no para ti */}
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-green-50 border border-green-100 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Este curso es para vos si:</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {isEbook ? "Este ebook es para ti si:" : "Este curso es para ti si:"}
+              </h3>
               <div className="space-y-3">
                 {[
-                  "Amás a los perros y querés trabajar con ellos de forma profesional",
-                  "Tenés la idea hace tiempo, pero la venís postergando",
-                  "Querés un negocio ordenado (no improvisar ni “probar suerte”)",
-                  "Necesitás una guía clara desde cero, paso a paso",
+                  "Amas a los perros y quieres trabajar con ellos de forma profesional",
+                  "Tienes la idea hace tiempo, pero te falta una guía clara",
+                  "Quieres un negocio ordenado (sin improvisar)",
+                  "Necesitas pasos concretos para avanzar con seguridad",
                 ].map((t, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
@@ -411,13 +642,15 @@ function App() {
             </div>
 
             <div className="bg-red-50 border border-red-100 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Este curso NO es para vos si:</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {isEbook ? "Este ebook NO es para ti si:" : "Este curso NO es para ti si:"}
+              </h3>
               <div className="space-y-3">
                 {[
-                  "Buscás dinero rápido sin aprender ni aplicar",
-                  "No estás dispuesto a seguir un plan y hacer las cosas bien",
-                  "Solo querés mirar sin intención real de empezar",
-                  "Te incomoda asumir responsabilidad por el cuidado animal",
+                  "Buscas resultados sin leer ni aplicar",
+                  "No estás dispuesto a seguir un plan",
+                  "Solo quieres “ver” sin intención real de empezar",
+                  "Te incomoda asumir responsabilidad por el bienestar animal",
                 ].map((t, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <CheckCircle className="h-5 w-5 text-red-600 mt-0.5" />
@@ -428,27 +661,26 @@ function App() {
             </div>
           </div>
 
-          {/* ✅ micro CTA */}
           <div className="text-center mt-10">
             <button
               onClick={goToPricing}
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-lg font-bold"
             >
-              Ver precio y acceder
+              {isEbook ? "Quiero el ebook" : "Ver precio y acceder"}
             </button>
           </div>
         </div>
       </section>
 
-      {/* Testimonials (igual) */}
+      {/* Testimonials (mantengo igual para no perder prueba social) */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-              Lo que dicen nuestros estudiantes
+              {isEbook ? "Lo que la gente valora de la guía" : "Lo que dicen nuestros estudiantes"}
             </h2>
             <p className="text-xl text-gray-600">
-              Más de 500 personas han transformado su vida con nuestro curso
+              {isEbook ? "Claridad, orden y pasos concretos para avanzar." : "Más de 500 personas han transformado su vida con nuestro curso"}
             </p>
           </div>
 
@@ -456,25 +688,31 @@ function App() {
             {[
               {
                 name: "María González",
-                role: "Propietaria de 'Peludos Felices'",
+                role: isEbook ? "Emprendedora" : "Propietaria de 'Peludos Felices'",
                 content:
-                  "Yo estaba exactamente en ese punto: quería trabajar con perros, pero no sabía por dónde empezar. El curso me dio claridad, orden y la confianza para dar el primer paso.",
+                  isEbook
+                    ? "La guía me dio estructura. Dejé de dar vueltas y por fin entendí qué pasos seguir y qué cosas debía preparar primero."
+                    : "Yo estaba exactamente en ese punto: quería trabajar con perros, pero no sabía por dónde empezar. El curso me dio claridad, orden y confianza para dar el primer paso.",
                 rating: 5,
                 image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150"
               },
               {
                 name: "Carlos Martín",
-                role: "Ex-empleado corporativo",
+                role: isEbook ? "Nuevo emprendedor" : "Ex-empleado corporativo",
                 content:
-                  "Dejé mi trabajo de oficina para seguir mi pasión. Hoy tengo un plan claro, procesos y una forma ordenada de captar clientes. ¡Valió totalmente la pena!",
+                  isEbook
+                    ? "Lo mejor es que es práctico. Checklist, plantillas y explicaciones claras. Me ahorró tiempo y errores."
+                    : "Dejé mi trabajo de oficina para seguir mi pasión. Hoy tengo un plan claro, procesos y una forma ordenada de captar clientes. Valió totalmente la pena.",
                 rating: 5,
                 image: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=150"
               },
               {
                 name: "Ana Ruiz",
-                role: "Emprendedora",
+                role: isEbook ? "Cuidadora canina" : "Emprendedora",
                 content:
-                  "Los aspectos legales me daban miedo, pero el curso lo explica de forma muy clara. Me ayudó a entender qué pasos seguir y qué revisar en mi zona.",
+                  isEbook
+                    ? "Me ayudó a entender qué es realmente una guardería canina profesional y cómo manejar grupos sin caos."
+                    : "Los aspectos legales me daban miedo, pero el curso lo explica de forma muy clara. Me ayudó a entender qué pasos seguir y qué revisar en mi zona.",
                 rating: 5,
                 image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150"
               }
@@ -503,31 +741,39 @@ function App() {
         </div>
       </section>
 
-      {/* ✅ Pricing con ID para scroll */}
+      {/* Pricing */}
       <section id={PRICING_ID} className="py-20 bg-gradient-to-br from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">
-            Tomá una decisión simple hoy
+            {page.pricingTitle}
           </h2>
 
           <div className="bg-white rounded-3xl p-8 shadow-2xl">
             <div className="text-center space-y-6">
               <div>
                 <div className="text-gray-500 text-lg line-through" style={{ fontStyle: 'italic' }}>
-                  {precioTotal ? precioTotal : "$120.00 USD"}
+                  {precioTotal ? precioTotal : (isEbook ? "$39.00 USD" : "$120.00 USD")}
                 </div>
 
                 <div className="text-5xl font-bold text-gray-900">{precio}</div>
 
                 <div className="text-gray-600">
-                  {isOferta ? "25% OFF EXTRA activado — por tiempo limitado" : "Precio de lanzamiento"}
+                  {page.pricingSub}
                 </div>
+
+                {/* Si quieres mostrar precio local */}
+                {precioLocal && (
+                  <div
+                    className="text-sm text-gray-500 mt-2"
+                    dangerouslySetInnerHTML={{ __html: precioLocal }}
+                  />
+                )}
               </div>
 
-              {/* ✅ Urgencia real SOLO oferta */}
+              {/* Urgencia real SOLO oferta */}
               {isOferta ? (
                 <div className="bg-red-100 text-red-800 px-4 py-2 rounded-full inline-block">
-                  ⏰ Tu 25% OFF vence en <b>{offerCountdown || "24:00:00"}</b>
+                  ⏰ Tu descuento vence en <b>{offerCountdown || "24:00:00"}</b>
                 </div>
               ) : (
                 <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full inline-block">
@@ -537,15 +783,7 @@ function App() {
 
               <div className="space-y-4 text-left">
                 <h3 className="text-xl font-semibold text-center mb-6">Todo lo que incluye:</h3>
-                {[
-                  "10 módulos completos con 35 lecciones",
-                  "Plantillas y documentos descargables",
-                  "Acceso de por vida al curso",
-                  "Soporte directo por email y grupo",
-                  "Certificado de finalización",
-                  "Actualizaciones gratuitas",
-                  "Garantía de 7 días"
-                ].map((feature, index) => (
+                {page.includes.map((feature, index) => (
                   <div key={index} className="flex items-center space-x-3">
                     <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
                     <span className="text-gray-700">{feature}</span>
@@ -553,18 +791,11 @@ function App() {
                 ))}
               </div>
 
-              {/* ✅ Botón de compra directo */}
               <button
-                onClick={() =>
-                  handleLeadClick(
-                    isOferta
-                      ? 'https://go.hotmart.com/C95254343F?ap=eaf3'
-                      : "https://go.hotmart.com/C95254343F?ap=544e"
-                  )
-                }
+                onClick={() => handleLeadClick(page.buyUrl)}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold"
               >
-                {isOferta ? "🎉 Aprovechar 25% OFF y acceder ahora" : "🚀 Obtener acceso completo ahora"}
+                {page.buyText}
               </button>
 
               <div className="text-center text-gray-600 text-sm space-y-2">
@@ -577,7 +808,7 @@ function App() {
         </div>
       </section>
 
-      {/* FAQ (igual) */}
+      {/* FAQ */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
@@ -585,43 +816,18 @@ function App() {
               Preguntas Frecuentes
             </h2>
             <p className="text-xl text-gray-600">
-              Resolvemos las dudas más comunes sobre el curso
+              {isEbook ? "Resolvemos dudas sobre el ebook y la descarga." : "Resolvemos las dudas más comunes sobre el curso"}
             </p>
           </div>
 
           <div className="space-y-4">
-            {[
-              {
-                question: "¿Necesito experiencia previa con perros?",
-                answer:
-                  "No es necesario tener experiencia profesional previa. El curso está diseñado para principiantes y te enseña todo desde cero, incluyendo comportamiento canino básico y protocolos de seguridad."
-              },
-              {
-                question: "¿Cuánto tiempo tengo para completar el curso?",
-                answer: "Tienes acceso de por vida al curso, por lo que puedes aprender a tu propio ritmo desde donde quieras."
-              },
-              {
-                question: "¿El curso incluye información sobre mi país?",
-                answer:
-                  "El curso se enfoca principalmente en Colombia, pero incluye una sección sobre cómo investigar regulaciones locales que te ayudará a adaptarlo a tu ubicación específica."
-              },
-              {
-                question: "¿Qué pasa si no estoy satisfecho?",
-                answer:
-                  "Ofrecemos una garantía de devolución completa de 7 días. Si no estás satisfecho por cualquier motivo, te devolvemos tu dinero sin preguntas."
-              },
-              {
-                question: "¿Recibo soporte después de comprar el curso?",
-                answer:
-                  "Sí, incluimos soporte por email para resolver dudas específicas sobre el contenido del curso y también contamos con un grupo privado en Telegram."
-              }
-            ].map((faq, index) => (
+            {faq.map((item, index) => (
               <div key={index} className="bg-white rounded-xl border border-gray-200">
                 <button
                   onClick={() => toggleFaq(index)}
                   className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50"
                 >
-                  <span className="font-semibold text-gray-900">{faq.question}</span>
+                  <span className="font-semibold text-gray-900">{item.question}</span>
                   {openFaq === index ? (
                     <ChevronUp className="h-5 w-5 text-gray-500" />
                   ) : (
@@ -630,7 +836,7 @@ function App() {
                 </button>
                 {openFaq === index && (
                   <div className="px-6 pb-4">
-                    <p className="text-gray-600">{faq.answer}</p>
+                    <p className="text-gray-600">{item.answer}</p>
                   </div>
                 )}
               </div>
@@ -639,14 +845,16 @@ function App() {
         </div>
       </section>
 
-      {/* Final CTA (ajustado: lleva a precio o compra) */}
+      {/* Final CTA */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
-            Tu guardería canina puede empezar con un primer paso
+            {isEbook ? "Empieza con claridad (y evita errores caros)" : "Tu guardería canina puede empezar con un primer paso"}
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Menos dudas. Más claridad. Empezá con una guía profesional y ordenada.
+            {isEbook
+              ? "Si llevas tiempo con la idea, este ebook te da estructura y un plan aplicable para avanzar hoy."
+              : "Menos dudas. Más claridad. Empieza con una guía profesional y ordenada."}
           </p>
 
           <div className="space-y-6">
@@ -654,7 +862,7 @@ function App() {
               onClick={goToPricing}
               className="bg-white text-blue-600 px-12 py-6 rounded-2xl hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-xl font-bold"
             >
-              {isOferta ? "🎁 Ver mi 25% OFF" : "🚀 Ver precio y acceder"}
+              {isEbook ? "📘 Ver precio del ebook" : (isOferta ? "🎁 Ver mi 25% OFF" : "🚀 Ver precio y acceder")}
             </button>
 
             <div className="text-blue-100 text-sm">
@@ -664,7 +872,7 @@ function App() {
         </div>
       </section>
 
-      {/* Footer (igual) */}
+      {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
@@ -674,17 +882,18 @@ function App() {
                 <span className="text-l font-bold">Motivaxion Dogs</span>
               </div>
               <p className="text-gray-400">
-                Convierte tu pasión por los perros en un negocio exitoso y rentable.
+                {isEbook
+                  ? "Guías prácticas para convertir tu pasión por los perros en un proyecto real y sostenible."
+                  : "Convierte tu pasión por los perros en un negocio exitoso y rentable."}
               </p>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">Curso</h3>
+              <h3 className="text-lg font-semibold mb-4">Recursos</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Contenido</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Testimonios</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Precios</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
+                <li><a href="#" onClick={(e)=>{e.preventDefault(); window.scrollTo({top:0, behavior:"smooth"})}} className="hover:text-white transition-colors">Inicio</a></li>
+                <li><a href="#" onClick={(e)=>{e.preventDefault(); goToPricing()}} className="hover:text-white transition-colors">Precio</a></li>
+                <li><a href="#" onClick={(e)=>{e.preventDefault();}} className="hover:text-white transition-colors">FAQ</a></li>
               </ul>
             </div>
 
@@ -695,18 +904,18 @@ function App() {
                   <Mail className="h-4 w-4" />
                   <span>infomotivaxiondogs@gmail.com</span>
                 </div>
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2">
                   <Phone className="h-4 w-4" />
                   <a onClick={() => window.open("https://wa.me/541138951721", "_blank")} style={{ cursor:'pointer' }}>
                     +54 11 3895 1721
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 Motivaxion Dogs.</p>
+            <p>&copy; 2026 Motivaxion Dogs.</p>
           </div>
         </div>
       </footer>

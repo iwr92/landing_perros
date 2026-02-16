@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     const host = window.location.hostname;
     if (host.includes("oferta")) setIsOferta(true);
-    if (host.includes("local")) setIsEbook(true);
+    if (host.includes("ebook")) setIsEbook(true);
   }, []);
 
   // ✅ inicializa deadline (persistente por usuario) cuando es oferta

@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     const host = window.location.hostname;
     if (host.includes("oferta")) setIsOferta(true);
-    if (host.includes("ebook")) setIsEbook(true);
+    if (host.includes("local")) setIsEbook(true);
   }, []);
 
   // ✅ inicializa deadline (persistente por usuario) cuando es oferta
@@ -85,6 +85,7 @@ function App() {
   const [precio, setPrecio] = useState("$49.99 USD");
   const [precioLocal, setPrecioLocal] = useState("");
   const [precioTotal, setPrecioTotal] = useState("");
+  console.log({ precio, precioLocal, precioTotal });
 
   // ✅ Links (cambia estos 2 del ebook cuando los tengas)
   const HOTMART_CURSO_NORMAL = "https://go.hotmart.com/C95254343F?ap=544e";
@@ -93,60 +94,72 @@ function App() {
   const HOTMART_EBOOK_NORMAL = "https://go.hotmart.com/REEMPLAZAR_EBOOK_NORMAL";
   const HOTMART_EBOOK_OFERTA = "https://go.hotmart.com/REEMPLAZAR_EBOOK_OFERTA";
 
-  // ✅ Pricing dinámico por país (depende de: isOferta + isEbook)
   useEffect(() => {
-    // Define precios base
-    const precioFullCurso = 120;
-    const precioCurso = isOferta ? 37.5 : 50;
+  // Precios base
+  const precioFullCurso = 120;
+  const precioCurso = isOferta ? 37.5 : 50;
 
-    // Ebook (ajusta si quieres)
-    const precioFullEbook = 9;
-    const precioEbook = 9;
+  const precioFullEbook = 27;
+  const precioEbook = 19;
 
-    const chosenFull = isEbook ? precioFullEbook : precioFullCurso;
-    const chosen = isEbook ? precioEbook : precioCurso;
+  const chosenFull = isEbook ? precioFullEbook : precioFullCurso;
+  const chosen = isEbook ? precioEbook : precioCurso;
 
-    const numberWithCommas = (x: any) => {
-      x = x.toString();
-      var pattern = /(-?\d+)(\d{3})/;
-      while (pattern.test(x)) {
-        x = x.replace(pattern, "$1,$2");
+  const numberWithCommas = (x: number | string) => {
+    const s = String(x);
+    return s.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const setFallbackUSD = () => {
+    setPrecio(`$${Number(chosen).toFixed(2)} USD`);
+    setPrecioTotal(`$${Number(chosenFull).toFixed(2)} USD`);
+    setPrecioLocal(`Precio en USD`);
+  };
+
+  fetch("https://ipwhois.app/json/?lang=es")
+    .then((r) => r.json())
+    .then((data) => {
+      const success = data?.success === true;
+
+      const code = data?.currency_code;
+      const symbol = data?.currency_symbol ?? "";
+      const rate = Number(data?.currency_rates); // <- fuerza número
+
+      // Si falla la respuesta, faltan campos, o el rate no es válido => fallback
+      if (!success || !code || !Number.isFinite(rate) || rate <= 0) {
+        setFallbackUSD();
+        return;
       }
-      return x;
-    };
 
-    fetch("https://ipwhois.app/json/?lang=es")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.currency_code !== "USD") {
-          const precioConvertido = (data.currency_rates * chosen * 1.064).toFixed();
-          setPrecio(`${data.currency_symbol}${numberWithCommas(precioConvertido)} ${data.currency_code}`);
-          setPrecioLocal(`Precio en tu moneda local  <img src="${data.country_flag}" width="23px" alt="flag"/>`);
+      // Si es USD, no conviertas
+      if (code === "USD") {
+        setFallbackUSD();
+        return;
+      }
 
-          const precioConvertidoTotal = (data.currency_rates * chosenFull * 1.064).toFixed();
-          setPrecioTotal(`${data.currency_symbol}${numberWithCommas(precioConvertidoTotal)} ${data.currency_code}`);
-        } else {
-          // ✅ fallback USD consistente
-          if (isEbook) {
-            setPrecio(isOferta ? "$19.00 USD" : "$27.00 USD");
-            setPrecioTotal("$39.00 USD");
-          } else {
-            setPrecio(isOferta ? "$37.50 USD" : "$49.99 USD");
-            setPrecioTotal("$120.00 USD");
-          }
-        }
-      })
-      .catch(() => {
-        // ✅ fallback si falla la API
-        if (isEbook) {
-          setPrecio(isOferta ? "$19.00 USD" : "$27.00 USD");
-          setPrecioTotal("$39.00 USD");
-        } else {
-          setPrecio(isOferta ? "$37.50 USD" : "$49.99 USD");
-          setPrecioTotal("$120.00 USD");
-        }
-      });
-  }, [isOferta, isEbook]);
+      // Conversión (tu multiplicador 1.064)
+      const factor = 1.064;
+
+      const local = Math.round(rate * Number(chosen) * factor);
+      const total = Math.round(rate * Number(chosenFull) * factor);
+
+      // Si por alguna razón da NaN, fallback
+      if (!Number.isFinite(local) || !Number.isFinite(total)) {
+        setFallbackUSD();
+        return;
+      }
+
+      setPrecio(`${symbol}${numberWithCommas(local)} ${code}`);
+      setPrecioTotal(`${symbol}${numberWithCommas(total)} ${code}`);
+      setPrecioLocal(
+        `Precio en tu moneda local <img src="${data?.country_flag}" width="23px" alt="flag"/>`
+      );
+    })
+    .catch(() => {
+      setFallbackUSD();
+    });
+}, [isOferta, isEbook]);
+
 
   const handleLeadClick = (url: string) => {
     (window as any).fbq?.('track', 'Lead');

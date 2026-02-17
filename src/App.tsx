@@ -99,8 +99,8 @@ function App() {
   const precioFullCurso = 120;
   const precioCurso = isOferta ? 37.5 : 50;
 
-  const precioFullEbook = 27;
-  const precioEbook = 19;
+  const precioFullEbook = 29;
+  const precioEbook = 17;
 
   const chosenFull = isEbook ? precioFullEbook : precioFullCurso;
   const chosen = isEbook ? precioEbook : precioCurso;

@@ -91,7 +91,7 @@ function App() {
   const HOTMART_CURSO_NORMAL = "https://go.hotmart.com/C95254343F?ap=544e";
   const HOTMART_CURSO_OFERTA = "https://go.hotmart.com/C95254343F?ap=eaf3";
 
-  const HOTMART_EBOOK_NORMAL = "https://go.hotmart.com/REEMPLAZAR_EBOOK_NORMAL";
+  const HOTMART_EBOOK_NORMAL = "https://pay.hotmart.com/V104489089O";
   const HOTMART_EBOOK_OFERTA = "https://go.hotmart.com/REEMPLAZAR_EBOOK_OFERTA";
 
   useEffect(() => {
